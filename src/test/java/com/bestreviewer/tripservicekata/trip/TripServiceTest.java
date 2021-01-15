@@ -17,6 +17,7 @@ public class TripServiceTest {
     private static final User NOT_LOGGED_USER = null;
     private static final User LOGGED_USER = new User();
     private static final User ANOTHER_USER = new User();
+    private static final User GUEST = new User();
     private static final Trip TO_JEJU = new Trip();
     private static final Trip TO_BUSAN = new Trip();
 
@@ -37,7 +38,7 @@ public class TripServiceTest {
     @Test
     @DisplayName("Should throw on exception when user is not logged.")
     public void testThrowExceptionWhenNotLogged(){
-        Assertions.assertThrows(Exception.class,()-> tripService.getTripsByUser(NOT_LOGGED_USER));
+        Assertions.assertThrows(Exception.class,()-> tripService.getTripsByUser(NOT_LOGGED_USER,GUEST));
     }
 
     @Test
@@ -48,7 +49,7 @@ public class TripServiceTest {
                 .withTrips(TO_JEJU)
                 .build();
 
-        List<Trip> friendTrips = tripService.getTripsByUser(friend);
+        List<Trip> friendTrips = tripService.getTripsByUser(friend,loggedInUser );
         assertEquals(0,friendTrips.size());
     }
 
@@ -60,7 +61,7 @@ public class TripServiceTest {
                 .withTrips(TO_JEJU,TO_BUSAN)
                 .build();
 
-        List<Trip> friendTrips = tripService.getTripsByUser(friend);
+        List<Trip> friendTrips = tripService.getTripsByUser(friend, loggedInUser);
         assertEquals(2,friendTrips.size());
     }
 
