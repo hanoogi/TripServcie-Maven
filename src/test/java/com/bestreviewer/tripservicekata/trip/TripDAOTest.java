@@ -9,5 +9,4 @@ public class TripDAOTest {
     public void testThrowExceptionWhenRetrieveUserTrips(){
         Assertions.assertThrows(Exception.class,()-> TripDAO.findTripsByUser(new User()));
     }
-
 }
