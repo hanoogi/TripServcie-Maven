@@ -6,12 +6,14 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.*;
 
 import java.util.List;
 
 import static com.bestreviewer.tripservicekata.trip.UserBuilder.aUser;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
+import static org.mockito.Mockito.when;
 
 public class TripServiceTest {
     private static final User NOT_LOGGED_USER = null;
@@ -21,8 +23,11 @@ public class TripServiceTest {
     private static final Trip TO_JEJU = new Trip();
     private static final Trip TO_BUSAN = new Trip();
 
-    private User loggedInUser;
-    TripService tripService;
+    @Mock
+    TripDAO tripDAO;
+
+    @InjectMocks
+    @Spy private TripService tripService = new TripService();
 
     @Test
     void test_fail() {
@@ -31,7 +36,7 @@ public class TripServiceTest {
 
     @BeforeEach
     public void setup(){
-        tripService = new TestableTripService();
+        MockitoAnnotations.initMocks(this);
     }
 
     @Test
@@ -60,6 +65,7 @@ public class TripServiceTest {
                 .withTrips(TO_JEJU,TO_BUSAN)
                 .build();
 
+        when(tripDAO.tripsBy(friend)).thenReturn(friend.trips());
         List<Trip> friendTrips = tripService.getTripsByUser(friend, LOGGED_USER);
         assertEquals(2,friendTrips.size());
     }
