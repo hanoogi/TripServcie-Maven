@@ -3,6 +3,7 @@ package com.bestreviewer.tripservicekata.trip;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.fail;
 
 public class TripServiceTest {
@@ -16,6 +17,6 @@ public class TripServiceTest {
     public void testThrowExceptionWhenNotLogged(){
         TripService tripService = new TripService();
 
-        tripService.getTripsByUser(null);
+        assertThrows(Exception.class,()->tripService.getTripsByUser(null));
     }
 }
