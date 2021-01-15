@@ -7,6 +7,6 @@ import org.junit.jupiter.api.Test;
 public class TripDAOTest {
     @Test
     public void testThrowExceptionWhenRetrieveUserTrips(){
-        Assertions.assertThrows(Exception.class,()-> TripDAO.findTripsByUser(new User()));
+        Assertions.assertThrows(Exception.class,()-> new TripDAO().tripsBy(new User()));
     }
 }
