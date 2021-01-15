@@ -15,6 +15,7 @@ public class TripServiceTest {
     private static final User LOGGED_USER = new User();
     private static final User ANOTHER_USER = new User();
     private static final Trip TO_JEJU = new Trip();
+    private static final Trip TO_BUSAN = new Trip();
 
     private User loggedInUser;
 
@@ -42,6 +43,21 @@ public class TripServiceTest {
 
         List<Trip> friendTrips = tripService.getTripsByUser(friend);
         assertEquals(0,friendTrips.size());
+    }
+
+    @Test
+    @DisplayName("친구인 경우 trip 을 반환한다.")
+    public void testReturnTripWhenUserAreFriend(){
+        TripService tripService = new TestableTripService();
+        loggedInUser = LOGGED_USER;
+        User friend = new User();
+        friend.addFriend(ANOTHER_USER);
+        friend.addFriend(loggedInUser);
+        friend.addTrip(TO_JEJU);
+        friend.addTrip(TO_BUSAN);
+
+        List<Trip> friendTrips = tripService.getTripsByUser(friend);
+        assertEquals(2,friendTrips.size());
     }
 
     private class TestableTripService extends TripService{
