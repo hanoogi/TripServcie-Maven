@@ -1,7 +1,9 @@
 package com.bestreviewer.tripservicekata.trip;
 
+import com.bestreviewer.tripservicekata.exception.UserNotLoggedInException;
 import com.bestreviewer.tripservicekata.user.User;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -18,25 +20,28 @@ public class TripServiceTest {
     private static final Trip TO_BUSAN = new Trip();
 
     private User loggedInUser;
-
+    TripService tripService;
 
     @Test
     void test_fail() {
         //fail();
     }
 
+    @BeforeEach
+    public void setup(){
+        tripService = new TestableTripService();
+        loggedInUser = LOGGED_USER;
+    }
+
     @Test
     @DisplayName("Should throw on exception when user is not logged.")
     public void testThrowExceptionWhenNotLogged(){
-        TripService tripService = new TestableTripService();
         Assertions.assertThrows(Exception.class,()-> tripService.getTripsByUser(NOT_LOGGED_USER));
     }
 
     @Test
     @DisplayName("친구가 아닌 경우 trip 을 반환하지 않는다.")
     public void testReturnNoTripWhenUserNotFriend(){
-        TripService tripService = new TestableTripService();
-        loggedInUser = LOGGED_USER;
         User friend = new User();
         friend.addFriend(ANOTHER_USER);
         friend.addTrip(TO_JEJU);
@@ -48,8 +53,6 @@ public class TripServiceTest {
     @Test
     @DisplayName("친구인 경우 trip 을 반환한다.")
     public void testReturnTripWhenUserAreFriend(){
-        TripService tripService = new TestableTripService();
-        loggedInUser = LOGGED_USER;
         User friend = new User();
         friend.addFriend(ANOTHER_USER);
         friend.addFriend(loggedInUser);
@@ -62,9 +65,15 @@ public class TripServiceTest {
 
     private class TestableTripService extends TripService{
         @Override
+        protected List<Trip> tripsBy(User user) throws UserNotLoggedInException {
+            return user.trips();
+        }
+
+        @Override
         protected User getLoggedInUser(){
             return loggedInUser;
         }
+
     }
 }
 
