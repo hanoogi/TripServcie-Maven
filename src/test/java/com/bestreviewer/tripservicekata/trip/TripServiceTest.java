@@ -70,12 +70,5 @@ public class TripServiceTest {
         assertEquals(2,friendTrips.size());
     }
 
-    private class TestableTripService extends TripService{
-        @Override
-        protected List<Trip> tripsBy(User user) throws UserNotLoggedInException {
-            return user.trips();
-        }
-
-    }
 }
 
