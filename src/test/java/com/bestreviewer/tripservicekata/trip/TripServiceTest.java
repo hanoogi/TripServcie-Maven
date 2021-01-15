@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
+import static com.bestreviewer.tripservicekata.trip.UserBuilder.aUser;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
@@ -42,7 +43,7 @@ public class TripServiceTest {
     @Test
     @DisplayName("친구가 아닌 경우 trip 을 반환하지 않는다.")
     public void testReturnNoTripWhenUserNotFriend(){
-        User friend = UserBuilder.aUser()
+        User friend = aUser()
                 .friendsWith(ANOTHER_USER)
                 .withTrips(TO_JEJU)
                 .build();
@@ -54,7 +55,7 @@ public class TripServiceTest {
     @Test
     @DisplayName("친구인 경우 trip 을 반환한다.")
     public void testReturnTripWhenUserAreFriend(){
-        User friend = UserBuilder.aUser()
+        User friend = aUser()
                 .friendsWith(ANOTHER_USER, loggedInUser)
                 .withTrips(TO_JEJU,TO_BUSAN)
                 .build();
