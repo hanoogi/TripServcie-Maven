@@ -42,9 +42,10 @@ public class TripServiceTest {
     @Test
     @DisplayName("친구가 아닌 경우 trip 을 반환하지 않는다.")
     public void testReturnNoTripWhenUserNotFriend(){
-        User friend = new User();
-        friend.addFriend(ANOTHER_USER);
-        friend.addTrip(TO_JEJU);
+        User friend = UserBuilder.aUser()
+                .friendsWith(ANOTHER_USER)
+                .withTrips(TO_JEJU)
+                .build();
 
         List<Trip> friendTrips = tripService.getTripsByUser(friend);
         assertEquals(0,friendTrips.size());
@@ -53,11 +54,10 @@ public class TripServiceTest {
     @Test
     @DisplayName("친구인 경우 trip 을 반환한다.")
     public void testReturnTripWhenUserAreFriend(){
-        User friend = new User();
-        friend.addFriend(ANOTHER_USER);
-        friend.addFriend(loggedInUser);
-        friend.addTrip(TO_JEJU);
-        friend.addTrip(TO_BUSAN);
+        User friend = UserBuilder.aUser()
+                .friendsWith(ANOTHER_USER, loggedInUser)
+                .withTrips(TO_JEJU,TO_BUSAN)
+                .build();
 
         List<Trip> friendTrips = tripService.getTripsByUser(friend);
         assertEquals(2,friendTrips.size());
