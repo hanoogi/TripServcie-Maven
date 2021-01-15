@@ -16,10 +16,13 @@ public class TripService {
 
 		}
 
-		if (user.isFriendWith(loggedUser)) {
-			return tripsBy(user);
-		}
-		return new ArrayList<Trip>();
+		return user.isFriendWith(loggedUser)
+				? tripsBy(user)
+				: new ArrayList<Trip>();
+//		if (user.isFriendWith(loggedUser)) {
+//			return tripsBy(user);
+//		}
+//		return new ArrayList<Trip>();
 
 	}
 
