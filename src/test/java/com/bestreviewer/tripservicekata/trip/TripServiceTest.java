@@ -1,6 +1,5 @@
 package com.bestreviewer.tripservicekata.trip;
 
-import com.bestreviewer.tripservicekata.exception.UserNotLoggedInException;
 import com.bestreviewer.tripservicekata.user.User;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -42,7 +41,7 @@ public class TripServiceTest {
     @Test
     @DisplayName("Should throw on exception when user is not logged.")
     public void testThrowExceptionWhenNotLogged(){
-        Assertions.assertThrows(Exception.class,()-> tripService.getTripsByUser(NOT_LOGGED_USER,GUEST));
+        Assertions.assertThrows(Exception.class,()-> tripService.getFriendTrips(NOT_LOGGED_USER,GUEST));
     }
 
     @Test
@@ -53,7 +52,7 @@ public class TripServiceTest {
                 .withTrips(TO_JEJU)
                 .build();
 
-        List<Trip> friendTrips = tripService.getTripsByUser(friend,LOGGED_USER );
+        List<Trip> friendTrips = tripService.getFriendTrips(friend,LOGGED_USER );
         assertEquals(0,friendTrips.size());
     }
 
@@ -66,7 +65,7 @@ public class TripServiceTest {
                 .build();
 
         when(tripDAO.tripsBy(friend)).thenReturn(friend.trips());
-        List<Trip> friendTrips = tripService.getTripsByUser(friend, LOGGED_USER);
+        List<Trip> friendTrips = tripService.getFriendTrips(friend, LOGGED_USER);
         assertEquals(2,friendTrips.size());
     }
 
