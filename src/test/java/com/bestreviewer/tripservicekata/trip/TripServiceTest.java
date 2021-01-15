@@ -32,7 +32,6 @@ public class TripServiceTest {
     @BeforeEach
     public void setup(){
         tripService = new TestableTripService();
-        loggedInUser = LOGGED_USER;
     }
 
     @Test
@@ -49,7 +48,7 @@ public class TripServiceTest {
                 .withTrips(TO_JEJU)
                 .build();
 
-        List<Trip> friendTrips = tripService.getTripsByUser(friend,loggedInUser );
+        List<Trip> friendTrips = tripService.getTripsByUser(friend,LOGGED_USER );
         assertEquals(0,friendTrips.size());
     }
 
@@ -57,11 +56,11 @@ public class TripServiceTest {
     @DisplayName("친구인 경우 trip 을 반환한다.")
     public void testReturnTripWhenUserAreFriend(){
         User friend = aUser()
-                .friendsWith(ANOTHER_USER, loggedInUser)
+                .friendsWith(ANOTHER_USER, LOGGED_USER)
                 .withTrips(TO_JEJU,TO_BUSAN)
                 .build();
 
-        List<Trip> friendTrips = tripService.getTripsByUser(friend, loggedInUser);
+        List<Trip> friendTrips = tripService.getTripsByUser(friend, LOGGED_USER);
         assertEquals(2,friendTrips.size());
     }
 
@@ -69,11 +68,6 @@ public class TripServiceTest {
         @Override
         protected List<Trip> tripsBy(User user) throws UserNotLoggedInException {
             return user.trips();
-        }
-
-        @Override
-        protected User getLoggedInUser(){
-            return loggedInUser;
         }
 
     }
