@@ -8,6 +8,11 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.fail;
 
 public class TripServiceTest {
+    private static final User NOT_LOGGED_USER = null;
+    private static final User LOGGED_USER = new User();
+
+    private User loggedInUser;
+
     @Test
     void test_fail() {
         //fail();
@@ -17,13 +22,13 @@ public class TripServiceTest {
     @DisplayName("Should throw on exception when user is not logged.")
     public void testThrowExceptionWhenNotLogged(){
         TripService tripService = new TestableTripService();
-        Assertions.assertThrows(Exception.class,()-> tripService.getTripsByUser(null));
+        Assertions.assertThrows(Exception.class,()-> tripService.getTripsByUser(NOT_LOGGED_USER));
     }
 
     private class TestableTripService extends TripService{
         @Override
         protected User getLoggedInUser(){
-            return null;
+            return loggedInUser;
         }
     }
 }
