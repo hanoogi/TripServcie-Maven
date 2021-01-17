@@ -12,6 +12,7 @@ public class TripService {
 	public static final ArrayList<Trip> NO_TRIPS = new ArrayList<Trip>();
 
 	private final DelegatedUserSession userSessions;
+	private final TripsRepository tripsRepository = new TripsRepository();
 
 	public TripService() {
 		this( new DelegatedUserSession());
@@ -29,7 +30,7 @@ public class TripService {
 		checkIfTheUserIsLogged(loggedUser);
 
 		return user.friendsOf(loggedUser)
-				? tripsBy(user)
+				? tripsRepository.tripsBy(user)
 				: NO_TRIPS;
 	}
 
@@ -40,7 +41,7 @@ public class TripService {
 	}
 
 	protected List<Trip> tripsBy(User user) {
-		return TripDAO.findTripsByUser(user);
+		return tripsRepository.tripsBy(user);
 	}
 
 }

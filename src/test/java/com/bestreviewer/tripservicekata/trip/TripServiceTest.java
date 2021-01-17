@@ -22,7 +22,7 @@ public class TripServiceTest {
 
     @BeforeEach
     public void setup(){
-        DelegatedUserSession userSessions = new FakeDelegatedUserSession(LOGGED_USER);
+        DelegatedUserSession userSessions = new UserSessionsThatReturnsUser(LOGGED_USER);
         tripService = new TestableTripService(userSessions);
     }
 
@@ -34,7 +34,7 @@ public class TripServiceTest {
     @Test
     @DisplayName("Should throw on exception when user is not logged.")
     public void throwsExceptionWhenNotLoggedIn(){
-        DelegatedUserSession userSessions = new FakeDelegatedUserSession(NOT_LOGGED_USER);
+        DelegatedUserSession userSessions = new UserSessionsThatReturnsUser(NOT_LOGGED_USER);
         assertThrows(Exception.class,()->new TripService(userSessions).getTripsByUser(NOT_LOGGED_USER));
     }
 
@@ -74,10 +74,10 @@ public class TripServiceTest {
 
     }
 
-    private class FakeDelegatedUserSession extends DelegatedUserSession {
+    private class UserSessionsThatReturnsUser extends DelegatedUserSession {
         private User loggedUser;
 
-        FakeDelegatedUserSession(User loggedUser) {
+        UserSessionsThatReturnsUser(User loggedUser) {
             this.loggedUser = loggedUser;
         }
 
