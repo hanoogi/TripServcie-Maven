@@ -1,6 +1,6 @@
 package com.bestreviewer.tripservicekata.trip;
 
-import com.bestreviewer.tripservicekata.exception.UserNotLoggedInException;
+import com.bestreviewer.tripservicekata.user.DelegatedUserSession;
 import com.bestreviewer.tripservicekata.user.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -18,13 +18,12 @@ public class TripServiceTest {
     private static final Trip TO_JEJU = new Trip();
     private static final Trip TO_BUSAN = new Trip();
 
-    private User loggedUser;
     TripService tripService;
 
     @BeforeEach
     public void setup(){
-        tripService = new TestableTripService();
-        loggedUser = LOGGED_USER;
+        DelegatedUserSession userSessions = new FakeDelegatedUserSession(LOGGED_USER);
+        tripService = new TestableTripService(userSessions);
     }
 
     @Test
@@ -35,7 +34,8 @@ public class TripServiceTest {
     @Test
     @DisplayName("Should throw on exception when user is not logged.")
     public void throwsExceptionWhenNotLoggedIn(){
-        assertThrows(Exception.class,()->tripService.getTripsByUser(NOT_LOGGED_USER));
+        DelegatedUserSession userSessions = new FakeDelegatedUserSession(NOT_LOGGED_USER);
+        assertThrows(Exception.class,()->new TripService(userSessions).getTripsByUser(NOT_LOGGED_USER));
     }
 
     @Test
@@ -54,7 +54,7 @@ public class TripServiceTest {
     public void returnsTripsWhenUserAreFriend(){
         User friend = new User();
         friend.addFriend(ANOTHER_USER);
-        friend.addFriend(loggedUser);
+        friend.addFriend(LOGGED_USER);
         friend.addTrip(TO_JEJU);
         friend.addTrip(TO_BUSAN);
 
@@ -63,11 +63,28 @@ public class TripServiceTest {
     }
 
     private class TestableTripService extends TripService{
+        public TestableTripService(DelegatedUserSession userSessions) {
+            super(userSessions);
+        }
+
         @Override
         protected List<Trip> tripsBy(User user) {
             return user.trips();
         }
 
+    }
+
+    private class FakeDelegatedUserSession extends DelegatedUserSession {
+        private User loggedUser;
+
+        FakeDelegatedUserSession(User loggedUser) {
+            this.loggedUser = loggedUser;
+        }
+
+        @Override
+        public User getLoggedUser() {
+            return loggedUser;
+        }
     }
 
 }

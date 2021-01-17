@@ -4,20 +4,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.bestreviewer.tripservicekata.exception.UserNotLoggedInException;
+import com.bestreviewer.tripservicekata.user.DelegatedUserSession;
 import com.bestreviewer.tripservicekata.user.User;
-import com.bestreviewer.tripservicekata.user.UserSession;
 
 public class TripService {
 
 	public static final ArrayList<Trip> NO_TRIPS = new ArrayList<Trip>();
 
-	private final UserSession userSessions;
+	private final DelegatedUserSession userSessions;
 
 	public TripService() {
-		this(UserSession.getInstance());
+		this( new DelegatedUserSession());
 	}
 
-	public TripService(UserSession userSessions) {
+	public TripService(DelegatedUserSession userSessions) {
 		this.userSessions = userSessions;
 	}
 
