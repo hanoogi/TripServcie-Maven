@@ -10,13 +10,12 @@ import com.bestreviewer.tripservicekata.user.UserSession;
 public class TripService {
 
 	public List<Trip> getTripsByUser(User user) throws UserNotLoggedInException {
-		List<Trip> tripList = new ArrayList<Trip>();
 		User loggedUser = getLoggedUser();
 		if (loggedUser != null) {
 			if (user.friendsOf(loggedUser)) {
-				tripList = tripsBy(user);
+				return tripsBy(user);
 			}
-			return tripList;
+			return new ArrayList<Trip>();
 		} else {
 			throw new UserNotLoggedInException();
 		}
