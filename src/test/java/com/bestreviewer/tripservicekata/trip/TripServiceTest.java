@@ -18,7 +18,7 @@ public class TripServiceTest {
     private static final Trip TO_JEJU = new Trip();
     private static final Trip TO_BUSAN = new Trip();
 
-    private TripsRepository tripsRepository = new TripsRepository();
+    private TripsRepository tripsRepository = new FakeTripsRepository();
     TripService tripService;
 
     @BeforeEach
@@ -82,4 +82,10 @@ public class TripServiceTest {
         }
     }
 
+    private class FakeTripsRepository extends TripsRepository {
+        @Override
+        protected List<Trip> tripsBy(User user) {
+            return user.trips();
+        }
+    }
 }
