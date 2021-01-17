@@ -24,7 +24,7 @@ public class TripServiceTest {
     @BeforeEach
     public void setup(){
         DelegatedUserSession userSessions = new UserSessionsThatReturnsUser(LOGGED_USER);
-        tripService = new TestableTripService(userSessions, tripsRepository);
+        tripService = new TripService(userSessions, tripsRepository);
     }
 
     @Test
@@ -61,12 +61,6 @@ public class TripServiceTest {
 
         List<Trip> friendTrips = tripService.getTripsByUser(friend);
         assertTrue(friendTrips.contains(TO_JEJU) && friendTrips.contains(TO_BUSAN));
-    }
-
-    private class TestableTripService extends TripService{
-        public TestableTripService(DelegatedUserSession userSessions, TripsRepository tripsRepository) {
-            super(userSessions, tripsRepository);
-        }
     }
 
     private class UserSessionsThatReturnsUser extends DelegatedUserSession {
