@@ -11,7 +11,15 @@ public class TripService {
 
 	public static final ArrayList<Trip> NO_TRIPS = new ArrayList<Trip>();
 
-	private final UserSession userSessions = UserSession.getInstance();
+	private final UserSession userSessions;
+
+	public TripService() {
+		this(UserSession.getInstance());
+	}
+
+	public TripService(UserSession userSessions) {
+		this.userSessions = userSessions;
+	}
 
 	public List<Trip> getTripsByUser(User user) throws UserNotLoggedInException {
 		return getTripsBy(user, userSessions.getLoggedUser());
