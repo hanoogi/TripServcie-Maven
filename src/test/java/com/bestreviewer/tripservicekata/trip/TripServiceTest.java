@@ -51,7 +51,7 @@ public class TripServiceTest {
 
     @Test
     @DisplayName("친구인 경우 trip 을 반환한다.")
-    public void testReturnTripWhenUserAreFriend(){
+    public void returnsTripsWhenUserAreFriend(){
         User friend = new User();
         friend.addFriend(ANOTHER_USER);
         friend.addFriend(loggedUser);
