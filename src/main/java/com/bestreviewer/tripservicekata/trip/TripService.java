@@ -12,14 +12,15 @@ public class TripService {
 	public static final ArrayList<Trip> NO_TRIPS = new ArrayList<Trip>();
 
 	private final DelegatedUserSession userSessions;
-	private final TripsRepository tripsRepository = new TripsRepository();
+	private final TripsRepository tripsRepository;
 
 	public TripService() {
-		this( new DelegatedUserSession());
+		this( new DelegatedUserSession(), new TripsRepository());
 	}
 
-	public TripService(DelegatedUserSession userSessions) {
+	public TripService(DelegatedUserSession userSessions, TripsRepository tripsRepository) {
 		this.userSessions = userSessions;
+		this.tripsRepository = tripsRepository;
 	}
 
 	public List<Trip> getTripsByUser(User user) throws UserNotLoggedInException {
