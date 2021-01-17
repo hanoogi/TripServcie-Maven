@@ -40,8 +40,4 @@ public class TripService {
 		}
 	}
 
-	protected List<Trip> tripsBy(User user) {
-		return tripsRepository.tripsBy(user);
-	}
-
 }

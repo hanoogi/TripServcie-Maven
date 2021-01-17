@@ -66,12 +66,6 @@ public class TripServiceTest {
         public TestableTripService(DelegatedUserSession userSessions) {
             super(userSessions);
         }
-
-        @Override
-        protected List<Trip> tripsBy(User user) {
-            return user.trips();
-        }
-
     }
 
     private class UserSessionsThatReturnsUser extends DelegatedUserSession {
