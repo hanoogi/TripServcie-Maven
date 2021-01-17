@@ -18,12 +18,13 @@ public class TripServiceTest {
     private static final Trip TO_JEJU = new Trip();
     private static final Trip TO_BUSAN = new Trip();
 
+    private TripsRepository tripsRepository = new TripsRepository();
     TripService tripService;
 
     @BeforeEach
     public void setup(){
         DelegatedUserSession userSessions = new UserSessionsThatReturnsUser(LOGGED_USER);
-        tripService = new TestableTripService(userSessions);
+        tripService = new TestableTripService(userSessions, tripsRepository);
     }
 
     @Test
@@ -35,7 +36,7 @@ public class TripServiceTest {
     @DisplayName("Should throw on exception when user is not logged.")
     public void throwsExceptionWhenNotLoggedIn(){
         DelegatedUserSession userSessions = new UserSessionsThatReturnsUser(NOT_LOGGED_USER);
-        assertThrows(Exception.class,()->new TripService(userSessions).getTripsByUser(NOT_LOGGED_USER));
+        assertThrows(Exception.class,()->new TripService(userSessions,tripsRepository).getTripsByUser(NOT_LOGGED_USER));
     }
 
     @Test
@@ -63,8 +64,8 @@ public class TripServiceTest {
     }
 
     private class TestableTripService extends TripService{
-        public TestableTripService(DelegatedUserSession userSessions) {
-            super(userSessions);
+        public TestableTripService(DelegatedUserSession userSessions, TripsRepository tripsRepository) {
+            super(userSessions, tripsRepository);
         }
     }
 
