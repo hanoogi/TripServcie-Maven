@@ -18,10 +18,9 @@ public class TripService {
 	private List<Trip> getTripsBy(User user, User loggedUser) {
 		checkIfTheUserIsLogged(loggedUser);
 
-		if (user.friendsOf(loggedUser)) {
-			return tripsBy(user);
-		}
-		return NO_TRIPS;
+		return user.friendsOf(loggedUser)
+				? tripsBy(user)
+				: NO_TRIPS;
 	}
 
 	private void checkIfTheUserIsLogged(User loggedUser) {
